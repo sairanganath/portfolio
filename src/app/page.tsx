@@ -3,6 +3,8 @@ import BlurFade from "@/components/magicui/blur-fade";
 import BlurFadeText from "@/components/magicui/blur-fade-text";
 import { ProjectCard } from "@/components/project-card";
 import { ResumeCard } from "@/components/resume-card";
+import { TestimonialCard } from "@/components/testimonial-card";
+import { AwardCard } from "@/components/award-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { DATA } from "@/data/resume";
@@ -22,7 +24,7 @@ export default function Page() {
                 delay={BLUR_FADE_DELAY}
                 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
                 yOffset={8}
-                text={`Hi, I'm ${DATA.name.split(" ")[1]} 👋`}
+                text={`Hi, I'm ${DATA.name.split(" ")[1] ?? DATA.name} 👋`}
               />
               <BlurFadeText
                 className="max-w-[600px] md:text-xl"
@@ -49,7 +51,8 @@ export default function Page() {
           </Markdown>
         </BlurFade>
       </section>
-      {/* <section id="work">
+      {/* Work Experience */}
+      <section id="work">
         <div className="flex min-h-0 flex-col gap-y-3">
           <BlurFade delay={BLUR_FADE_DELAY * 5}>
             <h2 className="text-xl font-bold">Work Experience</h2>
@@ -73,7 +76,7 @@ export default function Page() {
             </BlurFade>
           ))}
         </div>
-      </section> */}
+      </section>
       <section id="education">
         <div className="flex min-h-0 flex-col gap-y-3">
           <BlurFade delay={BLUR_FADE_DELAY * 7}>
@@ -120,12 +123,12 @@ export default function Page() {
                   My Projects
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Check out my latest work
+                  Key Projects at Wells Fargo
                 </h2>
                 <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  I&apos;ve worked on a variety of projects, from simple
-                  websites to complex web applications. Here are a few of my
-                  favorites.
+                  I&apos;ve led and contributed to a range of high-impact
+                  financial technology projects, from credit card systems to
+                  channel integrations. Here are some highlights.
                 </p>
               </div>
             </div>
@@ -195,6 +198,80 @@ export default function Page() {
           </BlurFade>
         </div>
       </section> */}
+      <section id="testimonials">
+        <div className="space-y-12 w-full py-12">
+          <BlurFade delay={BLUR_FADE_DELAY * 11}>
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
+                  Testimonials
+                </div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  What Colleagues Say
+                </h2>
+                <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Professional feedback and endorsements from colleagues and
+                  leaders across Wells Fargo.
+                </p>
+              </div>
+            </div>
+          </BlurFade>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-[800px] mx-auto">
+            {DATA.testimonials.map((testimonial, id) => (
+              <BlurFade
+                key={testimonial.name}
+                delay={BLUR_FADE_DELAY * 12 + id * 0.05}
+              >
+                <TestimonialCard
+                  name={testimonial.name}
+                  title={testimonial.title}
+                  company={testimonial.company}
+                  initials={testimonial.initials}
+                  feedback={testimonial.feedback}
+                  imageUrl={testimonial.imageUrl}
+                />
+              </BlurFade>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section id="awards">
+        <div className="space-y-12 w-full py-12">
+          <BlurFade delay={BLUR_FADE_DELAY * 13}>
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
+                  Recognition
+                </div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  Awards &amp; Recognition
+                </h2>
+                <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Acknowledgments and awards received for outstanding performance,
+                  collaboration, and leadership excellence at Wells Fargo.
+                </p>
+              </div>
+            </div>
+          </BlurFade>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-[800px] mx-auto">
+            {DATA.awards.map((award, id) => (
+              <BlurFade
+                key={award.title + award.date}
+                delay={BLUR_FADE_DELAY * 14 + id * 0.05}
+              >
+                <AwardCard
+                  title={award.title}
+                  date={award.date}
+                  category={award.category}
+                  description={award.description}
+                  imageUrl={award.imageUrl}
+                  points={"points" in award ? (award as { points?: string }).points : undefined}
+                />
+              </BlurFade>
+            ))}
+          </div>
+        </div>
+      </section>
       <section id="contact">
         <div className="grid items-center justify-center gap-4 px-4 text-center md:px-6 w-full py-12">
           <BlurFade delay={BLUR_FADE_DELAY * 16}>
@@ -206,15 +283,16 @@ export default function Page() {
                 Get in Touch
               </h2>
               <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Want to chat? Just shoot me a dm{" "}
+                Want to connect? Reach out via{" "}
                 <Link
                   href={DATA.contact.social.LinkedIn.url}
                   className="text-blue-500 hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  with a direct question on linkdin
+                  LinkedIn
                 </Link>{" "}
-                and I&apos;ll respond whenever I can. I will ignore all
-                soliciting.
+                and I&apos;ll respond as soon as I can.
               </p>
             </div>
           </BlurFade>
